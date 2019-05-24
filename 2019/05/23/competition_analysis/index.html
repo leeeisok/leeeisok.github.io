@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>竞品分析实战 | 秃头披风侠</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">竞品分析实战</h1><a id="logo" href="/.">秃头披风侠</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">竞品分析实战</h1><div class="post-meta">May 23, 2019<span> | </span><span class="category"><a href="/categories/其他/">其他</a></span></div><a class="disqus-comment-count" data-disqus-identifier="2019/05/23/competition_analysis/" href="/2019/05/23/competition_analysis/#disqus_thread"></a><div class="post-content"><p>“知己知彼，方能百战不殆。”  有时候，我们需要分析同类型的客户端，学习他们的优势，来提高我们自己。本文将介绍一些分析方法，来方便我们更好的完成竞品分析：</p>
+<h2 id="分析第三方库"><a href="#分析第三方库" class="headerlink" title="分析第三方库"></a>分析第三方库</h2><p>我们可以利用 <a href="http://stevenygard.com/projects/class-dump/" target="_blank" rel="noopener">class-dump</a> 反编译 <code>ipa</code> 包，来查看头文件和方法名。具体分如下及步骤：</p>
+<ul>
+<li><p>下载安装 class-dump，将 class-dump 文件拷贝到如下地址中：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打开终端，输入 <code>class-dump</code> 命令，显示版本号则表示成功</p>
+</li>
+<li><p>利用 <a href="https://pro.25pp.com/" target="_blank" rel="noopener">PP助手</a> 从越狱渠道获取 <code>ipa</code> 包并解压</p>
+</li>
+<li><p>cd 到 <code>ipa</code> 解压之后的 <code>Payload</code> 路径，执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class-dump -H xxx.app(.app 文件名)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>等待一会儿之后就能反编译出所有的 <code>.h</code> 文件了，比如下面是微信的：</p>
+<p><img src="http://m.qpic.cn/psb?/V11xNUJB0T42jH/SBSHN.aqHNDc1AVWJrMgP8JkHZaXfNYnxW4WnltWBvU!/b/dL8AAAAAAAAA&amp;bo=vgWeAwAAAAADBwQ!&amp;rf=viewer_4" alt=""></p>
+<ul>
+<li><p>接着就是具体分析 <code>.h</code> 头文件了，比如上面微信，可以看出使用了 <code>YYModel</code> 这个第三方库。最后可以输出一份文档：</p>
+<p><img src="http://m.qpic.cn/psb?/V11xNUJB0T42jH/8F1eeuNQyzs3hD2cpjA8sOg.PB3kwZ6DcANRCo22VX8!/b/dLYAAAAAAAAA&amp;bo=UAQ4BAAAAAADB0o!&amp;rf=viewer_4" alt=""></p>
+</li>
+<li><p>整理出竞品相关的第三方库后，我们可以具体分析这些库有没有值得我们借鉴的地方，尤其是一些偏业务上的，能不能配合我们自己的业务变现。比如上面文档中的 <code>ReactNative</code>，就可以结合我们自己的情况，分析是否可以引入该项技术！</p>
+</li>
+</ul>
+<h2 id="界面分析"><a href="#界面分析" class="headerlink" title="界面分析"></a>界面分析</h2><p>单单分析第三方库有时候并不够，我们可以使用 <a href="https://revealapp.com/" target="_blank" rel="noopener">Reveal</a> 这个工具，来进行更加深入的分析！</p>
+<p>使用 Reveal  分析其他 App 需要如下几个条件：</p>
+<ul>
+<li><p>越狱手机一部，越狱后打开 Cydia，安装 OpenSSH、CydiaSubstrate。OpenSSH 是在<strong>同一个 wifi 下</strong>进行联网调试的；CydiaSubstrate 是用来生成 <code>/Library/MobileSubstrate/DynamicLibraries/</code> 目录的。</p>
+</li>
+<li><p>安装 Reveal，配置 <code>libReveal.plist</code> 文件，<code>bundle id</code> 就是你想调试的 App 的 <code>bundle id</code>，可以去这个网站查看 <a href="https://www.deepaso.com/" target="_blank" rel="noopener">传送门</a>。</p>
+<p><img src="http://m.qpic.cn/psb?/V11xNUJB0T42jH/qqO31s3hRZAcR3Lnc4jH36D6hZ0LQapvw.CJR1qBz.0!/b/dL4AAAAAAAAA&amp;bo=NAJKAQAAAAADB18!&amp;rf=viewer_4" alt=""></p>
+</li>
+<li><p>从 Reveal 的 <code>Help</code> 入口导出 <code>RevealServer</code> 文件并修改名称为 <code>libReveal.dylib</code> ：<br>  <img src="http://m.qpic.cn/psb?/V11xNUJB0T42jH/x8Pmorilzdb6BCctUAoMYEdIN5fUCtAALu9kqcQdByQ!/b/dLYAAAAAAAAA&amp;bo=sAMoAgAAAAADB7s!&amp;rf=viewer_4" alt=""></p>
+<p>  <img src="http://m.qpic.cn/psb?/V11xNUJB0T42jH/gCuK5vM*.PV9u1b4uoVN.UKUOnRU7.U6fcMxcm8DCMo!/b/dL8AAAAAAAAA&amp;bo=BAZoAwAAAAADN3s!&amp;rf=viewer_4" alt=""></p>
+</li>
+<li><p>安装 <a href="https://pro.25pp.com/" target="_blank" rel="noopener">PP助手</a>，连上越狱手机，将上面准备好的 <code>libReveal.dylib</code> 和 <code>libReveal.plist</code> 文件通过 PP助手导入到 <code>/Library/MobileSubstrate/DynamicLibraries/</code> 目录中：</p>
+<p>  <img src="http://m.qpic.cn/psb?/V11xNUJB0T42jH/hmmmcMuEh4NQMMhTNEtuSHA4VwUvMANirJF3StkKTR4!/b/dIQAAAAAAAAA&amp;bo=NwY4BAAAAAADBy8!&amp;rf=viewer_4" alt=""></p>
+</li>
+<li><p>最后打开 Reveal 和我们需要调试 APP，就能调试了。如果 Reveal 上未出现需要调试的 App，可以重启下手机：</p>
+<p>  <img src="http://m.qpic.cn/psb?/V11xNUJB0T42jH/bkAMSq0ZOU.ceAig0uWY3UvH1*CH7wQkgP59kMy.9Ro!/b/dL8AAAAAAAAA&amp;bo=ZQY4BAAAAAADB30!&amp;rf=viewer_4" alt=""></p>
+<p>  <img src="http://m.qpic.cn/psb?/V11xNUJB0T42jH/LfT3R7Mr*yFIu2U7yRddCSk.lYWQTt.euKkijSI.N3I!/b/dL4AAAAAAAAA&amp;bo=ZQY4BAAAAAADRz0!&amp;rf=viewer_4" alt=""></p>
+</li>
+<li><p>通过 Reveal 调试，我们可以知道竞品每个页面是用什么技术来实现的，这样也能输出一份文档：<br>  <img src="http://m.qpic.cn/psb?/V11xNUJB0T42jH/l0FIBZH1KhfAByPKPoHx0kV0avWj4rr.dWpip1EPVm8!/b/dIQAAAAAAAAA&amp;bo=RAU4BAAAAAADB18!&amp;rf=viewer_4" alt=""></p>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>竞品分析是目的是取长补短，定期分析是很有必要的。一方面可以了解到别人都用到了哪些技术，思考能不能用到我们自己上；另一方面也能够发现我们自己的不足，及时优化。</p>
+</div><iframe src="/donate/?AliPayQR=/img/AliPay.png&amp;WeChatQR=/img/WechatPay.png&amp;GitHub=null&amp;BTCQR=null&amp;BTCKEY=null&amp;PayPal=null" style="overflow-x:hidden; overflow-y:hidden; border:0xp none #fff; min-height:240px; width:100%;" frameborder="0" scrolling="no"></iframe><div class="tags"></div><div class="post-nav"><a class="next" href="/2019/01/01/trainingday/">影片《训练日》-- 观后感</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'http://yoursite.com/2019/05/23/competition_analysis/';
+    this.page.identifier = '2019/05/23/competition_analysis/';
+    this.page.title = '竞品分析实战';
+  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
+url: 'https://disqus.com/next/config.json',
+timeout: 2500,
+type: 'GET',
+success: function(){
+  var d = document;
+  var s = d.createElement('script');
+  s.src = '//leeeisok.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', + new Date());
+  (d.head || d.body).appendChild(s);
+  $('.disqus_click_btn').css('display', 'none');
+},
+error: function() {
+  $('.disqus_click_btn').css('display', 'block');
+}
+});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
+    (() => { // DON'T EDIT BELOW THIS LINE
+        var d = document;
+        var s = d.createElement('script');
+        s.src = '//leeeisok.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', + new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+    $('.disqus_click_btn').css('display','none');
+});</script><script type="text/javascript" id="disqus-count-script">$(function() {
+     var xhr = new XMLHttpRequest();
+     xhr.open('GET', '//disqus.com/next/config.json', true);
+     xhr.timeout = 2500;
+     xhr.onreadystatechange = function () {
+       if (xhr.readyState === 4 && xhr.status === 200) {
+         $('.post-meta .post-comments-count').show();
+         var s = document.createElement('script');
+         s.id = 'dsq-count-scr';
+         s.src = 'https://leeeisok.disqus.com/count.js';
+         s.async = true;
+         (document.head || document.body).appendChild(s);
+       }
+     };
+     xhr.ontimeout = function () { xhr.abort(); };
+     xhr.send(null);
+   });
+</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/总结/">总结</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/05/23/competition_analysis/">竞品分析实战</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/01/trainingday/">影片《训练日》-- 观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/27/2018_questioning/">2018 年度总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/19/message_forward/">iOS 消息发送与转发详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/24/log_analysis/">iOS crash 日志堆栈解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/06/self_release/">聊聊 iOS 中的自释放</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/13/swift_tips/">Swift 小知识点</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/06/responder_chain/">基于 ResponderChain 的对象交互方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/06/list_optimize/">iOS 中关于列表滚动流畅方案的一些探讨</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> 最近评论</i></div><script type="text/javascript" src="//leeeisok.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">秃头披风侠.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
